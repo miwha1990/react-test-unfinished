@@ -1,14 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 
 export default class UserCard extends React.Component {
+    static propTypes = {
+        state: PropTypes.string,
+        user: PropTypes.object,
+        onPrevClick: PropTypes.func,
+        onNextClick: PropTypes.func,
+    };
+    handleNextClick = () => {
+        const { state, user, onNextClick } = this.props;
+        onNextClick({state, user});
+    };
+    handlePrevClick = () => {
+        const { state, user, onPrevClick } = this.props;
+        onPrevClick({state, user});
+    };
     renderButtons() {
         const { state } = this.props;
         if (state === 'applied') {
             return (
                 <div className="btn-toolbar justify-content-end" role="toolbar"
                      aria-label="Toolbar with button groups">
-                    <button type="button" className="btn btn-secondary">
-                        <i className="fa fa-chevron-right" aria-hidden="true"></i>
+                    <button type="button" className="btn btn-secondary" onClick={this.handleNextClick}>
+                        <i className="fa fa-chevron-right" aria-hidden="true" />
                     </button>
                 </div>
 
@@ -18,8 +34,8 @@ export default class UserCard extends React.Component {
             return (
                 <div className="btn-toolbar  justify-content-start" role="toolbar"
                      aria-label="Toolbar with button groups">
-                    <button type="button" className="btn btn-secondary">
-                        <i className="fa fa-chevron-left" aria-hidden="true"></i>
+                    <button type="button" className="btn btn-secondary" onClick={this.handlePrevClick}>
+                        <i className="fa fa-chevron-left" aria-hidden="true" />
                     </button>
                 </div>
 
@@ -28,11 +44,11 @@ export default class UserCard extends React.Component {
         return (
             <div className="btn-toolbar justify-content-between" role="toolbar"
                  aria-label="Toolbar with button groups">
-                <button type="button" className="btn btn-secondary">
-                    <i className="fa fa-chevron-left" aria-hidden="true"></i>
+                <button type="button" className="btn btn-secondary" onClick={this.handlePrevClick}>
+                    <i className="fa fa-chevron-left" aria-hidden="true" />
                 </button>
-                <button type="button" className="btn btn-secondary">
-                    <i className="fa fa-chevron-left" aria-hidden="true"></i>
+                <button type="button" className="btn btn-secondary" onClick={this.handleNextClick}>
+                    <i className="fa fa-chevron-right" aria-hidden="true" />
                 </button>
             </div>
         )
@@ -49,15 +65,10 @@ export default class UserCard extends React.Component {
                         <div className="col-8">
                             <h5 className="card-title">{user.name.first} {user.name.last}</h5>
                             <h6 className="card-subtitle mb-2 text-muted">{user.gender} {user.registered.age} y.o.</h6>
-                            {/*<p className="card-text">*/}
-                            {/*<ul className="list-group list-group-flush">*/}
-                            {/*<li className="list-group-item">City - {user.location.state}</li>*/}
-                            {/*<li className="list-group-item">State - {user.location.state}</li>*/}
-                            {/*<li className="list-group-item">Postcode - {user.location.postcode}</li>*/}
-                            {/*<li className="list-group-item">Email - {user.email}</li>*/}
-                            {/*<li className="list-group-item">Phone - {user.phone}</li>*/}
-                            {/*</ul>*/}
-                            {/*</p>*/}
+                            <p className="card-text">
+                                <div><b>City</b> - {user.location.city}</div>
+                                <div><b>State</b> - {user.location.state}</div>
+                            </p>
                         </div>
                     </div>
                     {this.renderButtons()}
